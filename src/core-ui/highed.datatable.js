@@ -1145,6 +1145,12 @@ highed.DataTable = function (parent, attributes) {
       events.emit('ImportChartSettings', settings, format);
       importModal.hide();
     });
+    // the importer here is dataimporter a parameter of the DataTable
+    // This event is an intermediate event that' boggles the mind. 
+    importer.on('ImportJSON', function (data) {
+      events.emit('ImportJSON', data);
+      importModal.hide();
+    });
 
     ////////////////////////////////////////////////////////////////////////////
 

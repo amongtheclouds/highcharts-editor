@@ -428,6 +428,9 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
         });
 
         dataTable.on('ImportChartSettings', chartPreview.data.settings);
+        // adding a json plugin reqired this additional event from the DataTable
+        // object. 
+        dataTable.on('ImportJSON', chartPreview.data.json);
 
         chartPreview.on('RequestEdit', function (event, x, y) {
             chartCustomizer.focus(event, x, y);

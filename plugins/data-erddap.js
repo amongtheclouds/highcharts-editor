@@ -48,7 +48,7 @@ highed.plugins.import.install('ERDDAP',  {
                     var col = row[key];
 
                     if (!options.includeFields[key]) {
-                        return;
+                        return;   
                     }
 
                     if (i == 0) {
