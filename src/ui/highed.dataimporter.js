@@ -202,16 +202,25 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
                     highed.dom.on(importBtn, 'click', function () {
                         highed.snackBar('Importing ' + name + ' data');
-
+                        
                         if (highed.isFn(options.request)) {
                             return options.request(url.value, dynamicOptions, function (err, chartProperties) {
                                 if (err) return highed.snackBar('import error: ' + err);
                                 events.emit('ImportChartSettings', chartProperties, options.newFormat);
                             });
                         }
-
+                        // 11-16-2017 Ian adding a proxy
+                        // the url is in some kind of html input
+                        // as url.value
+                        var url_copy = url.value ;
+                        if ( options.proxy != undefined && options.proxy.length > 0 ) {
+                          var encodedURL = encodeURIComponent(url.value);
+                          url_copy = options.proxy + encodedURL ;
+                        }
+                        // end adding a proxy
+                    
                         highed.ajax({
-                            url: url.value,
+                            url: url_copy,
                             type: 'get',
                             dataType: options.fetchAs || 'text',
                             success: function (val) {

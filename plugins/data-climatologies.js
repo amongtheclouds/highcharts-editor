@@ -10,7 +10,8 @@ highed.plugins.import.install('Climatologies',  {
     description: 'Climate data. <a href="http://www.neracoos.org/erddap/" target="_blank">http://www.neracoos.org/erddap/</a>',
     treatAs: 'csv',
     fetchAs: 'text/html',
-    defaultURL: 'http://www.neracoos.org/proxy2?ajax=1&url=http%3A%2F%2Fwww.neracoos.org%2Fstatic%2Fncdc_cache%2FNESHELF_sst_daily_clim_1982_2011.json',
+    proxy: "http://www.neracoos.org/proxy2?ajax=1&url=",
+    defaultURL: 'http://www.neracoos.org/static/ncdc_cache/NESHELF_sst_daily_clim_1982_2011.json',
     options: {
         includeFields: {
             type: 'string',
