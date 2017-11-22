@@ -6,7 +6,7 @@
 
 */
 
-highed.plugins.import.install('Climatologies',  {
+highed.plugins.import.install('ClimatologiesCSV',  {
     description: 'Climate data. <a href="http://www.neracoos.org/erddap/" target="_blank">http://www.neracoos.org/erddap/</a>',
     treatAs: 'csv',
     fetchAs: 'text/html',
