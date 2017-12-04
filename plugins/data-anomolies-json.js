@@ -6,7 +6,7 @@
 
 */
 
-highed.plugins.import.install('Anomolies',  {
+highed.plugins.import.install('Anomalies',  {
     description: 'Climate data. <a href="http://www.neracoos.org/erddap/" target="_blank">http://www.neracoos.org/erddap/</a>',
     treatAs: 'json',
     fetchAs: 'text/html',

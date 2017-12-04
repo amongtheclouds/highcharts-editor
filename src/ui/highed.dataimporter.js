@@ -93,7 +93,7 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
             properties = highed.merge({
                 options: ['csv', 'plugins', 'samples'],
                 plugins: ['CSV', 'JSON', 'Difi', 'Socrata', 'Google Spreadsheets',
-                     'ERDDAP', 'Climatologies', 'Anomolies']
+                     'ERDDAP', 'Climatologies', 'Anomalies']
             }, attributes),
 
             tabs = highed.TabControl(parent, false, true),
@@ -213,6 +213,8 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
                         // the url is in some kind of html input
                         // as url.value
                         var url_copy = url.value ;
+                        // pass the url into the chart generating part of the plugin.
+                        dynamicOptions.url = url.value ;
                         if ( options.proxy != undefined && options.proxy.length > 0 ) {
                           var encodedURL = encodeURIComponent(url.value);
                           url_copy = options.proxy + encodedURL ;

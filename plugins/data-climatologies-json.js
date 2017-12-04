@@ -18,6 +18,11 @@ highed.plugins.import.install('Climatologies',  {
             type: 'string',
             label: 'User added information',
             default: 'MEDIAN MEAN MIN MAX STD BOXPLOT'                           
+        },
+        firstColumn: {
+            type: 'string',
+            label: 'Region',
+            default: 'NESHELF, GOM, SS, GB, MAB'                           
         }
     },
     filter: function (data, options, fn) {
@@ -29,8 +34,10 @@ highed.plugins.import.install('Climatologies',  {
         var chart_options = {} ;
         chart_options.series = [] ;
         var yAxis = [] ;
+        var yAxisCount = 0 ;
         var toggle_opposite = false ; // a yAxis toggle for the side of the chart.
         var clim_freq = 'dc';
+        var doy_clim_tickPositions =  [1, 32, 61, 92, 122, 153, 183, 214, 245, 275, 306, 336];
         gmriHelper.initialize();
         
         // first without min max which we'll put together
@@ -44,6 +51,7 @@ highed.plugins.import.install('Climatologies',  {
                 var series = {} ;
                 series.data = data_parsed[fKey].data ;
                 series.name = "SST Standard Deviation" ;
+                // series.yAxis = yAxisCount ;
                 // series.type = "errorbar" ; // disappears from legend for some reason
                 series.type = "arearange" ;
                 chart_options.series.push(series) ;
@@ -63,6 +71,7 @@ highed.plugins.import.install('Climatologies',  {
                 series.data = data_parsed[fKey].data ;
                 series.name = "Box Plot" ;
                 series.type = "boxplot" ;
+                //series.yAxis = yAxisCount ;
                 chart_options.series.push(series) ;
                 // value suffix object
                 var vs_object = {shared: true, crosshairs: true};
@@ -86,6 +95,7 @@ highed.plugins.import.install('Climatologies',  {
               default:
                 var series = {} ;
                 series.name = fKey ;
+                //series.yAxis = yAxisCount ;
                 series.data = data_parsed[fKey].data ;
                 chart_options.series.push(series) ;
                 // value suffix object
@@ -99,11 +109,12 @@ highed.plugins.import.install('Climatologies',  {
                 break;
             }
             if ( bAddYAxis ){
+              yAxisCount ++ ;
               // yAxis is added later as an array to the series.
               var new_title3 = {} ;
               new_title3.text = fKey  ;
               var new_label3 = {} ;
-              new_label3.format = '{value}';
+              new_label3.format = '{value}' + ' °C';
               yAxis.push( {
                 title: new_title3,
                 labels: new_label3,
@@ -148,7 +159,7 @@ highed.plugins.import.install('Climatologies',  {
           lineWidth: 0,
           gridLineWidth: 1,
           // Monthly
-          tickPositions: this.doy_clim_tickPositions,
+          tickPositions: doy_clim_tickPositions,
           labels: {
             //formatter: function () {return monthStringFromDay(this.value);},
             formatter: function () {
@@ -173,14 +184,14 @@ highed.plugins.import.install('Climatologies',  {
                 case 'SST Min Max Range':
                   var range = point.point.high - point.point.low ;
                   s += '<br/>' + point.series.name + ': ' +
-                  range.toFixed(2) + '°C' + " : " + low + "°C to " + high + '°C';;
+                  range.toFixed(2) + ' °C' + " : " + low + " °C to " + high + ' °C';;
                   break;
                 case 'SST Standard Deviation':
                   var low = gmriHelper.roundNumber(data_parsed['STD'].data[this.x -1 ][1], 2);
                   var high = gmriHelper.roundNumber(data_parsed['STD'].data[this.x -1 ][2], 2);
                   var std = data_parsed['STD'].data[this.x -1 ][3]
                   std = gmriHelper.roundNumber(std, 4);
-                  s += "<br/> STD: " + std + " Range: " + low + "°C to " + high + '°C';
+                  s += "<br/> STD: " + std + " Range: " + low + " °C to " + high + ' °C';
                   break;
                 case 'Box Plot':
                   var Maximum = gmriHelper.roundNumber(point.series.options.data[point.x - 1][5], 2);
@@ -191,14 +202,14 @@ highed.plugins.import.install('Climatologies',  {
                   // s += '<br/>' + point.series.name + ': ' ;
                   // already have Maximum and Minimum.
                   // s += "<br/><&nbps>Maximum: " + Maximum ;
-                  s += "<br/>Upper quartile: " + Upperquartile + '°C' ;
-                  s += "<br/>Median: " + Median + '°C' ;
-                  s += "<br/>Lower quartile: " + Lowerquartile + '°C' ;
+                  s += "<br/>Upper quartile: " + Upperquartile + ' °C' ;
+                  s += "<br/>Median: " + Median + ' °C' ;
+                  s += "<br/>Lower quartile: " + Lowerquartile + ' °C' ;
                   // s += "<br/><&nbps>Minimum: " + Minimum ;
                   break;
                 default:
                   s += '<br/>' + point.series.name + ': ' +
-                  point.y.toFixed(2) + '°C';
+                  point.y.toFixed(2) + ' °C';
                   break;
               }
             }
@@ -208,6 +219,11 @@ highed.plugins.import.install('Climatologies',  {
             crosshairs: true
           };
         chart_options.yAxis = yAxis ;
+        chart_options.title = {text: "Climatologies"} ;
+        // use the initial part of the url as teh subtitle.
+        var search_text = 'http://www.neracoos.org/static/ncdc_cache/' ;
+        var qs_index = options.url.indexOf('?') ;
+        chart_options.subtitle = {text: "Source: " + options.url.substr(search_text.length) + "..."} ;
         fn(false, chart_options);
     }
 });
