@@ -311,22 +311,22 @@ highed.plugins.import.install('ERDDAP',  {
                     }
                     var found_series = false ;
                     for ( sKey in series_array ) {
-                      if ( sKey == label_text ) {
+                      if ( sKey == options.fields[fKey] ) {
                         found_series = true ;
                         break;
                       }
                     }
                     if ( !found_series ) {
                       var series = {} ;
-                      series_array[label_text] = series ;
-                      series_array[label_text].name = label_text + " " + options.fields[fKey] ;
-                      series_array[label_text].type = 'spline';
-                      series_array[label_text].yAxis = yAxisCount ;
-                      series_array[label_text].data = [];
+                      series_array[options.fields[fKey]] = series ;
+                      series_array[options.fields[fKey]].name = options.fields[fKey] ;
+                      series_array[options.fields[fKey]].type = 'spline';
+                      series_array[options.fields[fKey]].yAxis = yAxisCount ;
+                      series_array[options.fields[fKey]].data = [];
                       // higcharts will merge options here with the chart "options" so
                       // they are available in the tooltip. name above will magically be
                       // this.series.options.name in the tool tip formatter.
-                      series_array[label_text].options = {} ;
+                      series_array[options.fields[fKey]].options = {} ;
                     }
                     var data_as_number = 0.0 ;
               
@@ -349,30 +349,29 @@ highed.plugins.import.install('ERDDAP',  {
                     // then the data point
                     data_as_number = parseFloat(data_parsed.table.rows[dKey][columnKeys[options.fields[fKey]]]);
                     data_point.push(data_as_number );
-                    series_array[label_text].data.push(data_point);
+                    series_array[options.fields[fKey]].data.push(data_point);
                   }
                   // value suffix object
                   // units may not be present
                   if (  data_parsed.table.columnUnits[columnKeys[options.fields[fKey]]] != undefined) {
-                    series_array[label_text].options.units = data_parsed.table.columnUnits[columnKeys[options.fields[fKey]]];
+                    series_array[options.fields[fKey]].options.units = data_parsed.table.columnUnits[columnKeys[options.fields[fKey]]];
                   } else {
-                    series_array[label_text].options.units = "";
+                    series_array[options.fields[fKey]].options.units = "";
                   }
                   var vs_object = {shared: true, crosshairs: true};
                   vs_object.xDateFormat = '%A %m-%d-%Y %I:%M %p' ;
                   vs_object.pointFormatter = function () {
                     return (this.series.options.name + " " + this.y +  " " +
-                         this.series.options.units + 
-                         label_text + "<br/>")
+                         this.series.userOptions.options.units + "<br/>")
                   }
-                  series_array[label_text].tooltip = vs_object ;
+                  series_array[options.fields[fKey]].tooltip = vs_object ;
                   chart_options.tooltip = vs_object;
                   // yAxis is added later as an array to the series.
                   var new_title3 = {} ;
-                  new_title3.text = fKey  ;
+                  new_title3.text = options.fields[fKey]  ;
                   new_title3.style = {color: copy_hc_colors[color_count] };
                   var new_label3 = {} ;
-                  var units = series.units ;
+                  var units = series_array[options.fields[fKey]].options.units ;
                   // new_label3.format = '{value} ' + data_parsed.table.columnUnits[columnKeys[fKey]] ;
                   new_label3.format = '{value} ' + units;
                   new_label3.style = {color: copy_hc_colors[color_count] };
