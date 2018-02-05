@@ -20,8 +20,8 @@ highed.plugins.import.install('ERDDAP',  {
     description: 'ERDDAP data format commonly used for Ocean Observing. <a href="http://www.neracoos.org/erddap/" target="_blank">http://www.neracoos.org/erddap/</a>',
     treatAs: 'json',
     fetchAs: 'text/html',
-    // proxy: "http://www.neracoos.org/proxy2?ajax=1&url=",
-    proxy: "http://local.drupal7.neracoos.org/proxy2?ajax=1&url=",
+    proxy: "http://www.neracoos.org/proxy2?ajax=1&url=",
+    // proxy: "http://local.drupal7.neracoos.org/proxy2?ajax=1&url=",
     // defaultURL: 'http://www.neracoos.org/proxy2?ajax=1&url=https://coastwatch.pfeg.noaa.gov%2Ferddap%2Fgriddap%2FNWW3_Global_Best.json%3FThgt%5B(2017-11-08T05%3A00%3A00.000Z)%3A1%3A(2017-11-11T21%3A00%3A00.000Z%5D%5B(0.0)%3A1%3A(0.0)%5D%5B(43.46415)%3A1%3A(43.46415)%5D%5B(290)%3A1%3A(290)%5D%2CTper%5B(2017-11-08T05%3A00%3A00.000Z)%3A1%3A(2017-11-11T21%3A00%3A00.000Z%5D%5B(0.0)%3A1%3A(0.0)%5D%5B(43.46415)%3A1%3A(43.46415)%5D%5B(290)%3A1%3A(290)%5D%2Cshgt%5B(2017-11-08T05%3A00%3A00.000Z)%3A1%3A(2017-11-11T21%3A00%3A00.000Z%5D%5B(0.0)%3A1%3A(0.0)%5D%5B(43.46415)%3A1%3A(43.46415)%5D%5B(290)%3A1%3A(290)%5D%2Csper%5B(2017-11-08T05%3A00%3A00.000Z)%3A1%3A(2017-11-11T21%3A00%3A00.000Z%5D%5B(0.0)%3A1%3A(0.0)%5D%5B(43.46415)%3A1%3A(43.46415)%5D%5B(290)%3A1%3A(290)%5D',
     // defaultURL: 'http://www.neracoos.org/erddap/tabledap/A01_accelerometer_all.json?station%2Ctime%2Cmooring_site_desc%2Csignificant_wave_height%2Csignificant_wave_height_qc%2Cdominant_wave_period%2Cdominant_wave_period_qc%2Clongitude%2Clatitude%2Cdepth&time%3E=2017-11-09T00%3A00%3A00Z&time%3C=2017-11-16T18%3A00%3A00Z',
     // defaultURL: 'http://www.neracoos.org/erddap/tabledap/B01_met_all.json?time%2Cair_temperature%2Cwind_speed&time%3E=2017-11-13T00%3A00%3A00Z&time%3C=2017-11-20T16%3A00%3A00Z',
@@ -36,10 +36,10 @@ highed.plugins.import.install('ERDDAP',  {
     ///                  start_date_encoded + '&time%3C=' + end_date_encoded,
     
     /// GMRI ERDDAP Default URL
-    ///defaultURL: 'http://docker1.gmri.org:8230/erddap/tabledap/NMFS_Atlantic_Lobster_Landings.json?Year%2CPounds%2CValue%2CMetricTons%2CSpecies%2CState',
+    defaultURL: 'http://docker1.gmri.org:8230/erddap/tabledap/NMFS_Atlantic_Lobster_Landings.json?Year%2CPounds%2CValue%2CMetricTons%2CSpecies%2CState',
     
     // local erddap lobster landings
-    defaultURL: 'http://localhost:8080/erddap/tabledap/NEW_NMFS_Atlantic_Lobster_Landings.json?Year%2CState%2CPounds%2CMetricTons%2CValue%2CSpecies',
+    // defaultURL: 'http://localhost:8080/erddap/tabledap/NEW_NMFS_Atlantic_Lobster_Landings.json?Year%2CState%2CPounds%2CMetricTons%2CValue%2CSpecies',
     
     // local erddap Ice Out
     // defaultURL: 'http://localhost:8080/erddap/tabledap/USGSIceOut.json?Year%2CDOY%2CLake',
@@ -74,6 +74,7 @@ highed.plugins.import.install('ERDDAP',  {
             default: 'Grouped Line'
             /// default: 'Stacked and Grouped'  
             ///default: 'One Line per Field'
+            // default: 'State Map'
         }
     },
     filter: function (data, options, fn) {
@@ -498,6 +499,10 @@ highed.plugins.import.install('ERDDAP',  {
               shared: true,
               crosshairs: true
             };
+            break;
+          case 'State Map':
+            var series_array = [] ;
+            var yAxis = [] ;
             break;
           case 'One Line per Field' :
           default:
