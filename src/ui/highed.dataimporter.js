@@ -93,7 +93,7 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
             properties = highed.merge({
                 options: ['csv', 'plugins', 'samples'],
                 plugins: ['CSV', 'JSON', 'Difi', 'Socrata', 'Google Spreadsheets',
-                     'ERDDAP', 'Climatologies', 'Anomalies']
+                     'ERDDAP', 'Climatologies', 'Anomalies', 'LoopbackTest1']
             }, attributes),
 
             tabs = highed.TabControl(parent, false, true),
