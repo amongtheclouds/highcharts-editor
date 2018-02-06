@@ -151,6 +151,8 @@ highed.plugins.import.install('LoopbackTest1',  {
               rotation: -45
           }
         }
+        chart_options.title = {text: "LoopbackTest1"} ;
+        chart_options.subtitle = {text: "Source: " + options.url} ;
         fn(false, chart_options);
     }
 });
