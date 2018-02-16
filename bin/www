@@ -37,6 +37,9 @@ const args = process.argv;
 const fs = require('fs');
 
 var files = [];
+// Ian 2-16-2018
+// Only create files once! This is server side.
+var bFilesUpdated = false ;
 var port = 3005;
 
 if (args.length === 3) {
@@ -76,12 +79,16 @@ function appendFilesFromProduct(prodName) {
 }
 
 function updateFiles() {
-    files = require(__dirname + '/../res/filelist.json');
+    if ( bFilesUpdated == false ) {
+      files = require(__dirname + '/../res/filelist.json');
 
-    // Include product files
-    appendFilesFromProduct('highcharts'); 
-    appendFilesFromProduct('highstock'); 
-    //appendFilesFromProduct('highmaps'); 
+      console.log('Ian updateFiles', 'nodejscodestuff', 'module:', 'another argument');
+      // Include product files
+      appendFilesFromProduct('highcharts'); 
+      appendFilesFromProduct('highstock'); 
+      //appendFilesFromProduct('highmaps'); 
+      bFilesUpdated = true ;
+    }
 
 }
 
